@@ -7,13 +7,13 @@ import (
 	"github.com/go-rod/rod/lib/launcher"
 )
 
-func main() {
+func info(i int) {
 	l := launcher.New().Headless(true)
 	url := l.MustLaunch()
 
 	browser := rod.New().ControlURL(url).MustConnect()
 
-	page := browser.MustPage("https://internfreak.co/jobs-and-internship-opportunities?page=1&limit=10")
+	page := browser.MustPage(fmt.Sprintf("https://internfreak.co/jobs-and-internship-opportunities?page=%d&limit=1", i))
 
 	page.MustWaitLoad()
 
@@ -44,8 +44,14 @@ func main() {
 
 		postPage.MustClose()
 
-		// time.Sleep(2 * time.Second)
+		// time.Sleep(10 * time.Second)
 	}
 
 	defer browser.MustClose()
+}
+
+func main() {
+	for i := 0; i < 50; i++ {
+		info(i)
+	}
 }
